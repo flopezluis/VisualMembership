@@ -28,10 +28,16 @@
       </body>
 
 <script type="text/javascript">
-  $(document).ready(function(){
+  function getURLParameter(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
+}
+$(document).ready(function(){
+    user = getURLParameter('username');
     var shapes = new Array();
     ra = raphael_controller();
-    owner = ra.create_shape('flopezluis');
+    owner = ra.create_shape(user);
     shapes.push(owner);
 
     // This is the actual "global" callback called
@@ -49,7 +55,7 @@
             });
             }, 4500);
     };
-    jQuery.getJSON("http://api.twitter.com/1/statuses/followers/flopezluis.json?callback=?",{
+    jQuery.getJSON("http://api.twitter.com/1/statuses/followers/" +user+ ".json?callback=?",{
       }, getFollowerCallback);    
   });
  </script>
