@@ -1,0 +1,51 @@
+body {
+	width: 500px;
+	margin: 20px auto;
+	color: #999;
+	font: 90%/150% Arial, Helvetica, sans-serif;
+}
+* {
+	margin: 0;
+	padding: 0;
+}
+a {
+	color: #333;
+}
+/* step style */
+/* number style */
+#commentlist {
+	margin: 10px 0 40px;
+	padding: 0;
+}
+#commentlist li {
+	padding: 10px 0 20px;
+	list-style: none;
+	border-top: solid 1px #ccc;
+	position: relative;
+}
+#commentlist cite {
+	font: bold 140%/110% Arial, Helvetica, sans-serif;
+	color: #666;
+}
+#commentlist .time {
+	color: #ccc;
+	margin: 0 0 10px;
+}
+#commentlist .commentnumber {
+	position: absolute;
+	right: 0;
+	top: 8px;
+	font: normal 200%/100% Georgia, "Times New Roman", Times, serif;
+	color: #ccc;
+}
+.clear { clear: both; }
+
+#filters {
+    float: right;
+    display: block;
+}
+#filters >li {
+    margin-left: 20px;
+    float: left;
+}
+
