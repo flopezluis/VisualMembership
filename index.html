@@ -1,0 +1,59 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Raphaël · Graffle</title>
+        <script type="text/javascript" src="static/jQuery-1.8.6/js/jquery-1.4.4.min.js"></script>
+        <script type="text/javascript" src="static/jQuery-1.8.6/js/jquery-ui-1.8.16.custom.min.js"></script>
+        <script type="text/javascript" src="static/javascript/raphael-min.js"></script>
+        <script type="text/javascript" src="static/javascript/graffle.js"></script>
+        <script type="text/javascript" src="static/javascript/scale.raphael.js"></script>
+        <script type="text/javascript" src="static/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+        <script type="text/javascript" src="static/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+        <link rel="stylesheet" type="text/css" href="static/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+        
+        <style type="text/css" media="screen">
+            #holder {
+                -moz-border-radius: 10px;
+                -webkit-border-radius: 10px;
+                border: solid 1px #333;
+            }
+            body { font: 12px Helvetica Neue, Helvetica, sans-serif; background-color: #333}
+        </style>
+    </head>
+    <body>
+        <div id="holder"> </div>
+        <a id="example1" href="http://127.0.0.1:8000/list/"></a>
+      </body>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var shapes = new Array();
+    ra = raphael_controller();
+    owner = ra.create_shape('flopezluis');
+    shapes.push(owner);
+
+    // This is the actual "global" callback called
+    getFollowerCallback = function twitterCallback(data) {
+          stakeholders = data;
+          var len = 360 / stakeholders.length;
+          stakeholders.forEach(function(x, i) {
+            shape = ra.create_shape(x.screen_name, owner, i * len)
+            shapes.push(shape);
+          });
+          setTimeout(function() {
+            shapes.forEach(function(x) {
+                ra.fix_transform(x);
+                ra.connect(owner[0], x[0], "red");
+            });
+            }, 4500);
+    };
+    jQuery.getJSON("http://api.twitter.com/1/statuses/followers/flopezluis.json?callback=?",{
+      }, getFollowerCallback);    
+  });
+ </script>
+
+
+</html>
+
