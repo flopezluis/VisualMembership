@@ -157,6 +157,12 @@ var raphael_controller = function(spec) {
   var cl = function () {
       that = this; 
       group_shape = all_shapes.filter(function(x){ return x[0]== that;})[0];
+      var user = 'flopezluis';
+      group_shape.forEach(function(item) {
+            if (item.attrs.text) {
+              user = item.attrs.text;
+            }
+      });
       group_shape.animate({x: 400, y:320, cx:400, cy:320}, 200, function() {
         group_shape.transform("");
         group_shape.animate({'transform':  "s20 20"}, 400);
@@ -170,12 +176,12 @@ var raphael_controller = function(spec) {
         });
       });
       setTimeout(function() {
-        $.fancybox({href:'list/', autoDimensions:false, scrolling:'yes', width:500, height:500});
+         window.location.href = 'http://flopezluis.github.com/VisualMembership??username='+user+'&show_followers=true';
       }, 500);
   };
 
-  that.create_shape = function(text, center, element) {
-    var radio = 60;
+  that.create_shape = function(text, center, element, radio) {
+    if (!radio) radio = 60;
     var shape;
     if (center) {
       shape = sr.ellipse(600, 480, radio, radio);

@@ -29,33 +29,45 @@
 
 <script type="text/javascript">
   function getURLParameter(name) {
-    return decodeURI(
+    var value = decodeURI(
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
-    );
+        );
+    if (value == "null") value = undefined;
+    return value;
 }
 $(document).ready(function(){
-    user = getURLParameter('username');
-    var shapes = new Array();
-    ra = raphael_controller();
-    owner = ra.create_shape(user);
-
-    // This is the actual "global" callback called
-    getFollowerCallback = function twitterCallback(data) {
-          stakeholders = data;
-          var len = 360 / stakeholders.length;
-          stakeholders.forEach(function(x, i) {
-            shape = ra.create_shape(x.screen_name, owner, i * len)
-            shapes.push(shape);
-          });
-          setTimeout(function() {
-            shapes.forEach(function(x) {
-                ra.fix_transform(x);
-                ra.connect(owner[0], x[0], "red");
-            });
-            }, 4500);
+    var get_ratio = function(followers) {
+        new_ratio = (0.025 * followers) + 10;
+        if (new_ratio > 100) new_ratio = 100 + (followers / 4000); //starting from 6000 followers the size is this.
+        return new_ratio;
     };
-    jQuery.getJSON("http://api.twitter.com/1/statuses/followers/" +user+ ".json?callback=?",{
-      }, getFollowerCallback);    
+    var reload = function() {
+      user = getURLParameter('username');
+      show_followers = getURLParameter('show_followers');
+      var shapes = new Array();
+      ra = raphael_controller();
+      owner = ra.create_shape(user);
+
+      // This is the actual "global" callback called
+      getFollowerCallback = function twitterCallback(data) {
+            stakeholders = data;
+            var len = 360 / stakeholders.length;
+            stakeholders.forEach(function(x, i) {
+              shape = ra.create_shape(x.screen_name, owner, i * len, show_followers?get_ratio(x.followers_count):60);
+              shapes.push(shape);
+            });
+            setTimeout(function() {
+              shapes.forEach(function(x) {
+                  ra.fix_transform(x);
+                  //ra.connect(owner[0], x[0], "red");
+              });
+              }, 4500);
+      };
+      jQuery.getJSON("http://api.twitter.com/1/statuses/followers/" +user+ ".json?callback=?",{
+        }, getFollowerCallback);    
+    };
+
+    reload();
   });
  </script>
 
