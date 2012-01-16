@@ -47,7 +47,6 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
         x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
         y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
     var path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
-    
     var data_x = (bb1.x + bb1.width);
       var angle = 0;
       if ( data_x > bb2.x && bb1.x < (bb2.x + bb2.width)) {
@@ -65,11 +64,10 @@ Raphael.fn.connection = function (obj1, obj2, line, bg) {
     if (line && line.line) {
         line.bg && line.bg.attr({path: path});
         line.line.attr({path: path});
-        
-      line.arrow.remove();
-      line.arrow = this.arrow(x4, y4 - (5), 10);
-      line.arrow.transform("");
-      line.arrow.rotate(angle);
+        line.arrow.remove();
+        line.arrow = this.arrow(x4, y4 - (5), 10);
+        line.arrow.transform("");
+        line.arrow.rotate(angle);
     } else {
         var color = typeof line == "string" ? line : "#000";
         arrow = this.arrow(x4, y4 - (5), 10);
